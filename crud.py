@@ -4,7 +4,7 @@ from tkinter import messagebox
 
 #*********************** GLOBALES ***************************
 root = Tk()
-id_ = StringVar()
+indice = StringVar()
 nombre = StringVar()
 password = StringVar()
 apellido = StringVar()
@@ -57,9 +57,11 @@ def create():
 	conexion.close()
 #------------------------------------- READ --------------------------------------------
 def read():
+	global indice
+	index = int(indice.get())
 	conexion = sqlite3.connect("base")
 	cursor = conexion.cursor()
-	cursor.execute("SELECT * FROM usuarios WHERE ID='id_'")
+	cursor.execute("SELECT * FROM usuarios WHERE ID='%s'"% index)
 	usuarios_lista = cursor.fetchall()
 	print(usuarios_lista)
 	conexion.commit()
@@ -111,7 +113,7 @@ direccion_label.grid(row=4,column=0)
 comentario_label = Label(frame,text="comentario",padx=1,pady=10,justify="center")
 comentario_label.grid(row=5,column=0)
 #--------------------- Entry -------------------------------
-id_entry=Entry(frame,textvariable=id_)
+id_entry=Entry(frame,textvariable=indice)
 id_entry.grid(row=0,column=1,padx=15,pady=10,columnspan=3)
 nombre_entry=Entry(frame,justify="right",fg="red",textvariable=nombre)
 nombre_entry.grid(row=1,column=1,padx=10,pady=10,columnspan=3)
