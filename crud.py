@@ -63,7 +63,7 @@ def read():
 	cursor = conexion.cursor()
 	cursor.execute("SELECT * FROM usuarios WHERE ID='%s'"% index)
 	usuarios_lista = cursor.fetchall()
-	print(usuarios_lista)
+	nombre.set(usuarios_lista.row[1])
 	conexion.commit()
 	conexion.close()
 #------------------------------------- UPDATE ------------------------------------------
