@@ -1,7 +1,7 @@
 from tkinter import *
 import sqlite3
 from tkinter import messagebox
-
+# author : Jair Lenin Lucas Benavides
 #*********************** GLOBALES ***************************
 root = Tk()
 indice = StringVar()
