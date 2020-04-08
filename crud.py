@@ -4,11 +4,13 @@ from tkinter import messagebox
 
 #*********************** GLOBALES ***************************
 root = Tk()
-nombre_create = StringVar()
-password_create = StringVar()
-apellido_create = StringVar()
-direccion_create = StringVar()
-comentario_create = StringVar()
+indice = StringVar()
+nombre = StringVar()
+password = StringVar()
+apellido = StringVar()
+direccion = StringVar()
+
+
 #********************** FUNCIONES ***************************
 #------------------------- funciones bbdd -------------------
 def conectar():
@@ -46,13 +48,24 @@ def borrar():
 #********************************** FUNCIONES DE CRUD ************************************
 #------------------------------------- CREATE ------------------------------------------
 def create():
+	comentario = comentario_text.get(1.0,END)
 	conexion = sqlite3.connect("base")
 	cursor = conexion.cursor()
-	cursor.execute("INSERT INTO usuarios (NOMBRE,CONTRASEÑA,APELLIDO,DIRECCION,COMENTARIO) VALUES(NULL,?,?,?,?,?)",(nombre_create.get(),password_create.get(),apellido_create.get(),direccion_create.get(),comentario_create.get()))
+	cursor.execute("INSERT INTO usuarios (ID,NOMBRE,CONTRASEÑA,APELLIDO,DIRECCION,COMENTARIO) VALUES(NULL,?,?,?,?,?)",(nombre.get(),password.get(),apellido.get(),direccion.get(),comentario))
 	messagebox.showinfo("Confirmacion","registro insertado")
 	conexion.commit()
 	conexion.close()
-#------------------------------------- READ ------------------------------------------
+#------------------------------------- READ --------------------------------------------
+def read():
+	global indice
+	index = int(indice.get())
+	conexion = sqlite3.connect("base")
+	cursor = conexion.cursor()
+	cursor.execute("SELECT * FROM usuarios WHERE ID='%s'"% index)
+	usuarios_lista = cursor.fetchall()
+	print(usuarios_lista)
+	conexion.commit()
+	conexion.close()
 #------------------------------------- UPDATE ------------------------------------------
 #------------------------------------- DELETE ------------------------------------------
 
@@ -70,7 +83,7 @@ menu_borrar.add_command(label="borrar campos",command=borrar)
 
 menu_crud=Menu(menubar,tearoff=0)
 menu_crud.add_command(label="create",command=create)
-menu_crud.add_command(label="read")
+menu_crud.add_command(label="read",command=read)
 menu_crud.add_command(label="update")
 menu_crud.add_command(label="delete")
 
@@ -100,18 +113,18 @@ direccion_label.grid(row=4,column=0)
 comentario_label = Label(frame,text="comentario",padx=1,pady=10,justify="center")
 comentario_label.grid(row=5,column=0)
 #--------------------- Entry -------------------------------
-id_entry=Entry(frame)
+id_entry=Entry(frame,textvariable=indice)
 id_entry.grid(row=0,column=1,padx=15,pady=10,columnspan=3)
-nombre_entry=Entry(frame,justify="right",fg="red",textvariable=nombre_create)
+nombre_entry=Entry(frame,justify="right",fg="red",textvariable=nombre)
 nombre_entry.grid(row=1,column=1,padx=10,pady=10,columnspan=3)
-password_entry=Entry(frame,show="*",textvariable=password_create)
+password_entry=Entry(frame,show="*",textvariable=password)
 password_entry.grid(row=2,column=1,padx=10,pady=10,columnspan=3)
-apellido_entry=Entry(frame,textvariable=apellido_create)
+apellido_entry=Entry(frame,textvariable=apellido)
 apellido_entry.grid(row=3,column=1,padx=10,pady=10,columnspan=3)
-direccion_entry=Entry(frame,textvariable=direccion_create)
+direccion_entry=Entry(frame,textvariable=direccion)
 direccion_entry.grid(row=4,column=1,padx=10,pady=10,columnspan=3)
 #------------------------- text y scroll-----------------------
-comentario_text = Text(frame,width=15,height=4,textvariable=comentario_create)
+comentario_text = Text(frame,width=15,height=4)
 comentario_text.grid(row=5,column=1,padx=10,columnspan=3)
 comentario_scroll = Scrollbar(frame,command=comentario_text.yview)
 comentario_scroll.grid(row=5,column=4,sticky="nsew")
