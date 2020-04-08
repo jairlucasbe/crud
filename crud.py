@@ -163,13 +163,13 @@ comentario_scroll = Scrollbar(frame,command=comentario_text.yview)
 comentario_scroll.grid(row=5,column=4,sticky="nsew")
 comentario_text.config(yscrollcommand=comentario_scroll.set)
 #------------------------- botones ----------------------------
-create_button = Button(frame,text="create")
+create_button = Button(frame,text="create",command=create)
 create_button.grid(row=6,column=0,pady=10)
-read_button = Button(frame,text=" read ")
+read_button = Button(frame,text=" read ",command=read)
 read_button.grid(row=6,column=1,pady=10)
-update_button = Button(frame,text="update")
+update_button = Button(frame,text="update",command=update)
 update_button.grid(row=6,column=2,padx=10)
-delete_button = Button(frame,text="delete")
+delete_button = Button(frame,text="delete",command=delete)
 delete_button.grid(row=6,column=3)
 #******************************* CIERRES **********************************
 
